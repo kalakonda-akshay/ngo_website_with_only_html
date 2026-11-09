@@ -1,0 +1,553 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Lantern Learning Trust</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: full-width bands. Night-blue hero with a lit village and a stats strip, then light sections for the register, story, programs, voices, help, FAQ and contact. */
+:root {
+  --bg: #f2f6f3;
+  --surface: #ffffff;
+  --fg: #12231f;
+  --muted: #4b5f59;
+  --line: #cbd8d2;
+  --accent: #0e6b5b;
+  --accent-fg: #ffffff;
+  --lamp: #e9a400;
+  --lamp-ink: #12231f;
+  --lamp-soft: #fbefc7;
+  --night: #0b2238;
+  --night-2: #123a58;
+  --night-fg: #f3f7f5;
+  --night-muted: #a9c2cf;
+  --font-display: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
+  --font-body: "Source Sans 3", "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1a17; --surface: #14261f; --fg: #e6f0ec; --muted: #9db3ab; --line: #284039;
+    --accent: #4fc3a8; --accent-fg: #07201a; --lamp: #f2b72c; --lamp-soft: #2e2a14;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1a17; --surface: #14261f; --fg: #e6f0ec; --muted: #9db3ab; --line: #284039;
+  --accent: #4fc3a8; --accent-fg: #07201a; --lamp: #f2b72c; --lamp-soft: #2e2a14;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 1.0625rem; line-height: 1.6; margin: 0; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--night); }
+.wrap { max-width: 70rem; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.08; text-wrap: balance; margin: 0; letter-spacing: -0.015em; }
+h1 { font-size: clamp(2.4rem, 6.4vw, 4.4rem); font-weight: 800; }
+h2 { font-size: clamp(1.7rem, 3.8vw, 2.6rem); font-weight: 800; }
+h3 { font-size: 1.2rem; font-weight: 700; }
+p { margin: 0; max-width: 65ch; }
+a { color: var(--accent); }
+:focus-visible { outline: 3px solid var(--lamp); outline-offset: 2px; }
+.label { font-family: var(--font-mono); font-size: 0.76rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+
+/* Header */
+header.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 40; background: var(--night); border-bottom: 1px solid rgba(255,255,255,0.1); }
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem 1.5rem; flex-wrap: wrap; padding-block: 0.7rem; }
+.brand { font-family: var(--font-display); font-weight: 800; font-size: 1.2rem; display: flex; align-items: center; gap: 0.5rem; color: var(--night-fg); text-decoration: none; }
+.brand svg { width: 1.6rem; height: 1.6rem; color: var(--lamp); }
+.nav ul { list-style: none; display: flex; gap: 0.4rem 1.25rem; margin: 0; padding: 0; flex-wrap: wrap; align-items: center; }
+.nav ul a { color: var(--night-fg); text-decoration: none; font-weight: 600; font-size: 0.95rem; }
+.nav ul a:hover { color: var(--lamp); }
+.nav ul a.pill { background: var(--lamp); color: var(--lamp-ink); padding: 0.4rem 0.95rem; border-radius: 99px; }
+.nav ul a.pill:hover { color: var(--lamp-ink); filter: brightness(1.08); }
+
+/* Buttons */
+.btn { display: inline-block; padding: 0.75rem 1.4rem; border-radius: 0.4rem; font-weight: 600; text-decoration: none; border: 2px solid var(--accent); font-family: var(--font-body); font-size: 1rem; cursor: pointer; line-height: 1.2; }
+.btn.primary { background: var(--accent); color: var(--accent-fg); }
+.btn.lamp { background: var(--lamp); border-color: var(--lamp); color: var(--lamp-ink); }
+.btn.ghost { background: transparent; color: var(--accent); }
+.btn.ghost-night { background: transparent; border-color: rgba(255,255,255,0.45); color: var(--night-fg); }
+.btn:hover { filter: brightness(1.1); }
+.actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.9rem; }
+
+/* Hero */
+.hero { background: var(--night); color: var(--night-fg); }
+.hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 3rem; align-items: center; padding-block: clamp(2.5rem, 6vw, 4.5rem) clamp(2rem, 4vw, 3rem); }
+.hero-grid > * { min-width: 0; }
+.hero .label { color: var(--lamp); }
+.hero h1 { margin-top: 0.9rem; }
+.hero h1 em { font-style: normal; color: var(--lamp); }
+.hero p.lead { margin-top: 1.4rem; font-size: 1.2rem; color: var(--night-muted); }
+.scene { width: 100%; height: auto; display: block; border-radius: 1rem; }
+.stats { border-top: 1px solid rgba(255,255,255,0.14); }
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+.stat { padding: 1.4rem 1rem 1.6rem 0; display: grid; gap: 0.2rem; align-content: start; }
+.stat + .stat { padding-left: 1.25rem; border-left: 1px solid rgba(255,255,255,0.14); }
+.stat b { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.9rem, 4.5vw, 2.9rem); line-height: 1; color: var(--night-fg); font-variant-numeric: tabular-nums; }
+.stat span { font-size: 0.92rem; color: var(--night-muted); }
+
+/* Sections */
+section { padding-block: clamp(3rem, 7vw, 5rem); }
+section + section { border-top: 1px solid var(--line); }
+.section-head { display: grid; gap: 0.7rem; margin-bottom: 2.25rem; max-width: 46rem; }
+.section-head p.sub { color: var(--muted); font-size: 1.1rem; }
+
+/* Register */
+.reg-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 0.6rem; background: var(--surface); }
+.register { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.register th, .register td { text-align: left; padding: 0.8rem 1.1rem; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.register thead th { font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+.register td.num, .register th.num { font-family: var(--font-mono); text-align: right; }
+.register tfoot td { border-bottom: 0; font-weight: 600; background: var(--lamp-soft); }
+.register tbody tr:last-child td { border-bottom: 1px solid var(--line); }
+.note { margin-top: 0.8rem; font-size: 0.9rem; color: var(--muted); }
+
+/* About */
+.about { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+.about > * { min-width: 0; }
+.story { display: grid; gap: 1rem; align-content: start; }
+.story h2 { margin-top: 0.1rem; }
+.values { display: grid; gap: 1rem; align-content: start; }
+.value { padding: 1.1rem 1.3rem; background: var(--surface); border: 1px solid var(--line); border-radius: 0.6rem; }
+.value p { margin-top: 0.3rem; color: var(--muted); font-size: 0.98rem; }
+.steps { list-style: none; margin: 3rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+.steps > li { min-width: 0; border-top: 3px solid var(--accent); padding-top: 0.9rem; display: grid; gap: 0.35rem; align-content: start; }
+.steps .when { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+.steps p { color: var(--muted); font-size: 0.97rem; }
+
+/* Programs */
+.programs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+.programs > * { min-width: 0; }
+.program { background: var(--surface); border: 1px solid var(--line); border-radius: 0.6rem; padding: 1.6rem; display: grid; gap: 0.6rem; align-content: start; }
+.program .label { color: var(--accent); }
+.program p { color: var(--muted); font-size: 0.98rem; }
+.program .tag { justify-self: start; margin-top: 0.4rem; font-family: var(--font-mono); font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 99px; }
+.program.read .tag { background: var(--lamp-soft); color: var(--fg); }
+.program.stem .tag { background: color-mix(in srgb, var(--accent) 16%, var(--surface)); color: var(--fg); }
+.program.board .tag { border: 1px solid var(--line); color: var(--muted); }
+.timetable-wrap { margin-top: 2.75rem; }
+.timetable { width: 100%; min-width: 36rem; border-collapse: collapse; }
+.timetable th, .timetable td { padding: 0.7rem 0.8rem; border: 1px solid var(--line); text-align: left; font-size: 0.95rem; }
+.timetable thead th { font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+.timetable td.t { font-family: var(--font-mono); font-size: 0.84rem; color: var(--muted); white-space: nowrap; }
+.timetable td.read { background: var(--lamp-soft); }
+.timetable td.stem { background: color-mix(in srgb, var(--accent) 16%, var(--surface)); }
+.legend { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; margin-top: 0.8rem; font-size: 0.88rem; color: var(--muted); }
+.legend span::before { content: ""; display: inline-block; width: 0.8rem; height: 0.8rem; margin-right: 0.4rem; vertical-align: -0.1rem; border: 1px solid var(--line); }
+.legend .l-read::before { background: var(--lamp-soft); }
+.legend .l-stem::before { background: color-mix(in srgb, var(--accent) 16%, var(--surface)); }
+
+/* Voices */
+.voices { background: var(--night); color: var(--night-fg); }
+.voices .label { color: var(--lamp); }
+.voices .section-head p.sub { color: var(--night-muted); }
+.quotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+.quotes > * { min-width: 0; }
+.quote { background: var(--night-2); border-radius: 0.6rem; padding: 1.6rem; display: grid; gap: 1.1rem; align-content: space-between; margin: 0; }
+.quote blockquote { margin: 0; font-family: var(--font-display); font-size: 1.2rem; line-height: 1.35; font-weight: 500; }
+.quote figcaption { font-size: 0.92rem; color: var(--night-muted); }
+.quote figcaption b { display: block; color: var(--night-fg); font-weight: 600; }
+.voices .note { color: var(--night-muted); }
+
+/* Get involved */
+.involve { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+.involve > * { min-width: 0; }
+.tier { background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--lamp); border-radius: 0.6rem; padding: 1.6rem; display: grid; gap: 0.6rem; align-content: start; }
+.tier p { color: var(--muted); }
+.tier .price { font-family: var(--font-mono); font-weight: 500; color: var(--fg); font-size: 1.05rem; }
+.tier .btn { justify-self: start; margin-top: 0.5rem; padding: 0.55rem 1.1rem; font-size: 0.95rem; }
+
+/* CTA band */
+.cta { background: var(--accent); color: var(--accent-fg); padding-block: clamp(2.5rem, 6vw, 3.75rem); }
+.cta-grid { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem 2.5rem; flex-wrap: wrap; }
+.cta-grid > div { min-width: 0; flex: 1 1 22rem; }
+.cta h2 { font-size: clamp(1.7rem, 3.6vw, 2.4rem); }
+.cta p { margin-top: 0.6rem; opacity: 0.92; }
+.cta .btn.lamp { border-color: var(--lamp); }
+
+/* FAQ */
+.faq { display: grid; gap: 0.75rem; max-width: 50rem; }
+details { background: var(--surface); border: 1px solid var(--line); border-radius: 0.6rem; padding: 0 1.25rem; }
+summary { cursor: pointer; padding: 1rem 0; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 1rem; align-items: center; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; font-family: var(--font-mono); font-size: 1.3rem; color: var(--accent); }
+details[open] summary::after { content: "–"; }
+details p { padding-bottom: 1.1rem; color: var(--muted); }
+
+/* Contact */
+.contact { display: grid; grid-template-columns: 1fr 1.2fr; gap: 3rem; }
+.contact > * { min-width: 0; }
+.contact dl { margin: 1.75rem 0 0; display: grid; gap: 1.1rem; }
+.contact dt { font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.contact dd { margin: 0.15rem 0 0; overflow-wrap: anywhere; }
+form { display: grid; gap: 1rem; background: var(--surface); border: 1px solid var(--line); border-radius: 0.6rem; padding: 1.6rem; }
+.field { display: grid; gap: 0.35rem; }
+.field label { font-weight: 600; font-size: 0.95rem; }
+input, select, textarea { font: inherit; color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 0.4rem; padding: 0.65rem 0.8rem; width: 100%; }
+textarea { min-height: 7rem; resize: vertical; }
+.status { min-height: 1.5rem; font-weight: 600; color: var(--accent); }
+form .btn { justify-self: start; }
+
+footer { background: var(--night); color: var(--night-muted); padding-block: 2.25rem; font-size: 0.92rem; }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.6rem 2rem; }
+footer strong { color: var(--night-fg); font-family: var(--font-display); font-size: 1.1rem; }
+
+@media (max-width: 56rem) {
+  .hero-grid, .about, .contact { grid-template-columns: 1fr; gap: 2rem; }
+  .programs, .involve, .quotes { grid-template-columns: 1fr; }
+  .steps { grid-template-columns: 1fr 1fr; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .stat:nth-child(3) { padding-left: 0; border-left: 0; }
+  .stat:nth-child(n+3) { border-top: 1px solid rgba(255,255,255,0.14); }
+}
+@media (max-width: 30rem) {
+  .steps { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Lantern Learning Trust, home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6M10 3v2m4-2v2M7 9a5 5 0 0 1 10 0v7a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V9zM9 21h6M12 9v5" /></svg>
+      Lantern Learning Trust
+    </a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#programs">Programs</a></li>
+        <li><a href="#stories">Stories</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a class="pill" href="#involve">Help a centre</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="label">Free evening schools · Rural India</p>
+        <h1>Every village child deserves a <em>lit room</em> and a teacher.</h1>
+        <p class="lead">Lantern Learning Trust runs free evening learning centres for children in Classes 3 to 10. Trained local volunteers teach in the hours after the school bell.</p>
+        <div class="actions">
+          <a class="btn lamp" href="#involve">Volunteer or donate</a>
+          <a class="btn ghost-night" href="#programs">See our programs</a>
+        </div>
+      </div>
+      <svg class="scene" viewBox="0 0 520 440" role="img" aria-label="Illustration of a village at dusk with a lit learning centre and children walking to its door">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#07172a"/>
+            <stop offset="0.55" stop-color="#14466a"/>
+            <stop offset="1" stop-color="#b9831a"/>
+          </linearGradient>
+          <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="#ffd25a" stop-opacity="0.8"/>
+            <stop offset="1" stop-color="#ffd25a" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="520" height="440" fill="url(#sky)"/>
+        <g fill="#ffffff">
+          <circle cx="60" cy="50" r="1.6" opacity="0.9"/><circle cx="130" cy="95" r="1.2" opacity="0.7"/>
+          <circle cx="210" cy="40" r="1.8" opacity="0.9"/><circle cx="300" cy="80" r="1.2" opacity="0.7"/>
+          <circle cx="380" cy="35" r="1.6" opacity="0.9"/><circle cx="450" cy="90" r="1.3" opacity="0.8"/>
+          <circle cx="490" cy="46" r="1.2" opacity="0.7"/><circle cx="25" cy="120" r="1.2" opacity="0.6"/>
+          <circle cx="345" cy="130" r="1" opacity="0.6"/><circle cx="165" cy="150" r="1" opacity="0.6"/>
+        </g>
+        <circle cx="430" cy="70" r="20" fill="#fbefc7" opacity="0.95"/>
+        <circle cx="438" cy="64" r="20" fill="#0a2a46" opacity="0.55"/>
+        <path d="M0 300 Q90 235 190 290 T380 268 T520 288 V440 H0Z" fill="#0e3150"/>
+        <path d="M0 345 Q140 305 260 340 T520 330 V440 H0Z" fill="#0a2540"/>
+        <circle cx="270" cy="320" r="150" fill="url(#glow)"/>
+        <!-- small houses -->
+        <g>
+          <rect x="40" y="312" width="64" height="48" fill="#0b2236"/><polygon points="34,312 72,284 110,312" fill="#081a2b"/>
+          <rect x="58" y="326" width="14" height="16" fill="#ffd25a"/>
+          <rect x="400" y="305" width="70" height="55" fill="#0b2236"/><polygon points="394,305 435,274 476,305" fill="#081a2b"/>
+          <rect x="416" y="322" width="14" height="16" fill="#ffd25a" opacity="0.85"/><rect x="442" y="322" width="14" height="16" fill="#ffd25a" opacity="0.5"/>
+        </g>
+        <!-- the learning centre -->
+        <rect x="180" y="276" width="180" height="94" fill="#16405f"/>
+        <polygon points="170,276 270,224 370,276" fill="#0c2a44"/>
+        <rect x="198" y="296" width="36" height="30" fill="#ffd25a"/>
+        <rect x="306" y="296" width="36" height="30" fill="#ffd25a"/>
+        <rect x="260" y="330" width="20" height="40" fill="#ffe08a"/>
+        <circle cx="270" cy="256" r="7" fill="#ffd25a"/>
+        <path d="M198 311H234M216 296V326M306 311H342M324 296V326" stroke="#16405f" stroke-width="2"/>
+        <!-- lamp post -->
+        <rect x="381" y="318" width="4" height="52" fill="#081a2b"/>
+        <circle cx="383" cy="312" r="26" fill="url(#glow)"/>
+        <rect x="376" y="302" width="14" height="18" rx="3" fill="#ffd25a"/>
+        <!-- ground and light -->
+        <rect x="0" y="370" width="520" height="70" fill="#07182a"/>
+        <polygon points="248,370 292,370 360,440 180,440" fill="#ffd25a" opacity="0.24"/>
+        <g fill="#07182a">
+          <circle cx="226" cy="400" r="6"/><rect x="220" y="406" width="12" height="24" rx="5"/>
+          <circle cx="256" cy="412" r="6"/><rect x="250" y="418" width="12" height="20" rx="5"/>
+          <circle cx="306" cy="404" r="6"/><rect x="300" y="410" width="12" height="24" rx="5"/>
+          <circle cx="330" cy="414" r="5"/><rect x="325" y="419" width="10" height="18" rx="4"/>
+        </g>
+      </svg>
+    </div>
+    <div class="stats">
+      <div class="wrap stats-grid">
+        <div class="stat"><b>1,240</b><span>children learning each week</span></div>
+        <div class="stat"><b>27</b><span>evening centres</span></div>
+        <div class="stat"><b>102</b><span>trained local volunteers</span></div>
+        <div class="stat"><b>53%</b><span>of learners are girls</span></div>
+      </div>
+    </div>
+  </div>
+
+  <section id="impact">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="label">Class register</p>
+        <h2>Where the centres are, and who attends</h2>
+        <p class="sub">Four clusters of villages, each with its own coordinator and a monthly review of attendance.</p>
+      </div>
+      <div class="reg-scroll">
+        <table class="register">
+          <thead>
+            <tr><th>Cluster</th><th class="num">Centres</th><th class="num">Children</th><th class="num">Volunteers</th><th class="num">Girls (%)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>North cluster</td><td class="num">9</td><td class="num">412</td><td class="num">34</td><td class="num">54</td></tr>
+            <tr><td>River cluster</td><td class="num">7</td><td class="num">338</td><td class="num">27</td><td class="num">51</td></tr>
+            <tr><td>Hill cluster</td><td class="num">6</td><td class="num">274</td><td class="num">22</td><td class="num">57</td></tr>
+            <tr><td>Plains cluster</td><td class="num">5</td><td class="num">216</td><td class="num">19</td><td class="num">52</td></tr>
+          </tbody>
+          <tfoot>
+            <tr><td>All clusters</td><td class="num">27</td><td class="num">1,240</td><td class="num">102</td><td class="num">53</td></tr>
+          </tfoot>
+        </table>
+      </div>
+      <p class="note">Sample numbers written for this demo site.</p>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap">
+      <div class="about">
+        <div class="story">
+          <p class="label">About us</p>
+          <h2>Learning does not stop when school does</h2>
+          <p>Lantern began with one borrowed classroom and one solar lamp. Children who walked home from school had no quiet place to study and nobody to ask when a sum went wrong.</p>
+          <p>Today our centres open from 5 pm to 8 pm. Each one is hosted by a village panchayat or a school, led by a trained volunteer, and stocked with a small library, a tablet for offline lessons and a solar lamp.</p>
+          <p>We teach to the children's own school syllabus, so evening lessons make daytime lessons easier.</p>
+        </div>
+        <div class="values">
+          <div class="value"><h3>Local teachers first</h3><p>Volunteers come from the same villages as the children and complete 40 hours of training before they teach.</p></div>
+          <div class="value"><h3>Free, always</h3><p>No child pays a fee, buys a uniform or brings a notebook they cannot afford.</p></div>
+          <div class="value"><h3>Girls stay in the room</h3><p>We track attendance by gender and visit homes when a girl stops coming.</p></div>
+        </div>
+      </div>
+      <ol class="steps" aria-label="How a new centre opens">
+        <li><span class="when">Week 1</span><h3>The village invites us</h3><p>The panchayat offers a room and names a local contact.</p></li>
+        <li><span class="when">Weeks 2 to 6</span><h3>Volunteers train</h3><p>Five to eight local volunteers complete our 40-hour course.</p></li>
+        <li><span class="when">Week 7</span><h3>The lamp goes up</h3><p>We fit solar lighting, shelves and the first 200 books.</p></li>
+        <li><span class="when">Week 8</span><h3>First evening</h3><p>Doors open at 5 pm. Children arrive, and the register starts.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="programs">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="label">What we offer</p>
+        <h2>Three programs, one weekly timetable</h2>
+        <p class="sub">Children join the program that matches their class, and every evening starts with homework help.</p>
+      </div>
+      <div class="programs">
+        <article class="program read">
+          <p class="label">Classes 3 to 5</p>
+          <h3>Read Together</h3>
+          <p>Reading circles in the local language and English, with picture books and a weekly read-aloud.</p>
+          <span class="tag">Mon, Wed, Fri</span>
+        </article>
+        <article class="program stem">
+          <p class="label">Classes 6 to 8</p>
+          <h3>Numbers and Nature</h3>
+          <p>Hands-on maths and science with simple kits, school lab ideas and low-cost experiments.</p>
+          <span class="tag">Mon to Thu</span>
+        </article>
+        <article class="program board">
+          <p class="label">Classes 9 to 10</p>
+          <h3>Board Ready</h3>
+          <p>Doubt-clearing sessions, past-paper practice and career talks from local graduates.</p>
+          <span class="tag">Tue, Thu, Fri</span>
+        </article>
+      </div>
+      <div class="timetable-wrap">
+        <p class="label" style="margin-bottom:0.7rem">A typical week at a centre</p>
+        <div class="reg-scroll">
+          <table class="timetable">
+            <thead>
+              <tr><th>Time</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="t">5:00 – 5:45</td><td>Homework help</td><td>Homework help</td><td>Homework help</td><td>Homework help</td><td>Homework help</td></tr>
+              <tr><td class="t">5:45 – 6:30</td><td class="read">Read Together</td><td class="stem">Numbers and Nature</td><td class="read">Read Together</td><td class="stem">Numbers and Nature</td><td>Board Ready</td></tr>
+              <tr><td class="t">6:30 – 7:15</td><td class="stem">Numbers and Nature</td><td>Board Ready</td><td class="stem">Numbers and Nature</td><td>Board Ready</td><td class="read">Story hour</td></tr>
+              <tr><td class="t">7:15 – 8:00</td><td>Library</td><td>Library</td><td>Digital lab</td><td>Library</td><td>Games and quiz</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="legend"><span class="l-read">Reading</span><span class="l-stem">Maths and science</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="stories" class="voices">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="label">Voices from the centres</p>
+        <h2>What changes when there is a light on</h2>
+        <p class="sub">Three short stories from a learner, a volunteer and a parent.</p>
+      </div>
+      <div class="quotes">
+        <figure class="quote">
+          <blockquote>I used to be scared of fractions. Now I explain them to my younger brother.</blockquote>
+          <figcaption><b>Meena</b>Class 8 learner, River cluster</figcaption>
+        </figure>
+        <figure class="quote">
+          <blockquote>I finished Class 12 here. Teaching in my own village is the best use of my evenings.</blockquote>
+          <figcaption><b>Ravi</b>Volunteer teacher, Hill cluster</figcaption>
+        </figure>
+        <figure class="quote">
+          <blockquote>My daughter walks to the centre on her own now. She comes home asking questions.</blockquote>
+          <figcaption><b>Lakshmi</b>Parent, North cluster</figcaption>
+        </figure>
+      </div>
+      <p class="note">Sample stories written for this demo site. The people and quotes are invented.</p>
+    </div>
+  </section>
+
+  <section id="involve">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="label">Get involved</p>
+        <h2>Three ways to help a centre stay open</h2>
+        <p class="sub">Pick the one that fits your time and budget. Each one reaches children within a term.</p>
+      </div>
+      <div class="involve">
+        <div class="tier">
+          <h3>Volunteer teach</h3>
+          <p>Give three evenings a week for a term. Training, a handbook and a mentor are provided.</p>
+          <p class="price">3 evenings a week</p>
+          <a class="btn ghost" href="#contact">Offer your time</a>
+        </div>
+        <div class="tier">
+          <h3>Sponsor a lamp</h3>
+          <p>A solar lamp and a shelf of books for one centre.</p>
+          <p class="price">Example: ₹4,500</p>
+          <a class="btn ghost" href="#contact">Sponsor a lamp</a>
+        </div>
+        <div class="tier">
+          <h3>Fund a child for a year</h3>
+          <p>Covers materials, volunteer stipends and travel for one learner.</p>
+          <p class="price">Example: ₹3,600</p>
+          <a class="btn ghost" href="#contact">Fund a child</a>
+        </div>
+      </div>
+      <p class="note">Amounts are examples for the demo. No payments can be made on this page.</p>
+    </div>
+  </section>
+
+  <div class="cta">
+    <div class="wrap cta-grid">
+      <div>
+        <h2>Light one more centre.</h2>
+        <p>Twenty-one villages are waiting for a room, a lamp and a volunteer.</p>
+      </div>
+      <a class="btn lamp" href="#contact">Start a conversation</a>
+    </div>
+  </div>
+
+  <section id="faq">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="label">Questions</p>
+        <h2>Before you get in touch</h2>
+      </div>
+      <div class="faq">
+        <details open>
+          <summary>Who can volunteer?</summary>
+          <p>Anyone aged 18 or older who has completed Class 12 and lives within walking distance of a centre. We train you, so teaching experience is not required.</p>
+        </details>
+        <details>
+          <summary>Do children pay anything?</summary>
+          <p>No. Every centre is free. We cover books, stationery, lighting and the volunteer stipend.</p>
+        </details>
+        <details>
+          <summary>How do you choose a village?</summary>
+          <p>We look for a room offered by the panchayat or a school, at least 30 children who want to attend, and a local contact who will keep the register.</p>
+        </details>
+        <details>
+          <summary>Can I visit a centre?</summary>
+          <p>Yes. Write to us two weeks ahead and we will arrange a visit with a cluster coordinator.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap contact">
+      <div>
+        <p class="label">Contact</p>
+        <h2 style="margin-top:0.7rem">Talk to the team</h2>
+        <p style="margin-top:1rem;color:var(--muted)">Tell us if you want to volunteer, host a centre in your village or support our work. We reply within three working days.</p>
+        <dl>
+          <div><dt>Email</dt><dd>hello@lantern-sample.example</dd></div>
+          <div><dt>Phone</dt><dd>+91 00000 00000 (sample)</dd></div>
+          <div><dt>Office hours</dt><dd>Mon to Sat, 10:00 – 17:00 IST</dd></div>
+        </dl>
+      </div>
+      <form id="contact-form" novalidate>
+        <div class="field"><label for="name">Your name</label><input id="name" name="name" type="text" autocomplete="name" required></div>
+        <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+        <div class="field">
+          <label for="topic">I want to</label>
+          <select id="topic" name="topic">
+            <option>Volunteer as a teacher</option>
+            <option>Host a centre</option>
+            <option>Sponsor a lamp or a child</option>
+            <option>Something else</option>
+          </select>
+        </div>
+        <div class="field"><label for="msg">Message</label><textarea id="msg" name="msg"></textarea></div>
+        <button class="btn primary" type="submit">Send message</button>
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <strong>Lantern Learning Trust</strong>
+    <p>A fictional organisation. Structure and copy generated with AI as an internship exercise.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var form = document.getElementById("contact-form");
+  var status = document.getElementById("status");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var name = document.getElementById("name").value.trim();
+    var email = document.getElementById("email").value.trim();
+    if (!name || !email || email.indexOf("@") < 1) {
+      status.textContent = "Enter your name and a valid email address, then send again.";
+      return;
+    }
+    status.textContent = "Thanks, " + name + ". This is a demo form, so nothing was sent.";
+    form.reset();
+  });
+})();
+</script>
+
+</body></html>
